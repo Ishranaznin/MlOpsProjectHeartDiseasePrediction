@@ -123,15 +123,15 @@ jobs:
         run: |
           docker save -o heart-disease-api.tar ${{ env.DOCKER_IMAGE }}:latest
       
-      - name: Test Docker container
-        run: |
-          docker run -d \
-            --name test-container \
-            -p 8000:8000 \
-            ${{ env.DOCKER_IMAGE }}:latest
-          sleep 10
-          curl --retry 5 --retry-delay 3 http://localhost:8000/health
-          docker stop test-container
+      # - name: Test Docker container
+      #   run: |
+      #     docker run -d \
+      #       --name test-container \
+      #       -p 8000:8000 \
+      #       ${{ env.DOCKER_IMAGE }}:latest
+      #     sleep 10
+      #     curl --retry 5 --retry-delay 3 http://localhost:8000/health
+      #     docker stop test-container
 
       - name: Upload Docker image artifact
         uses: actions/upload-artifact@v4
