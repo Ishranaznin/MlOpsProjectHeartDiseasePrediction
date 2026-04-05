@@ -1,22 +1,22 @@
-# Core ML — no strict sklearn pin so your installed version is used for training
-scikit-learn>=1.1.0
-pandas>=1.5.0
-numpy>=1.23.0
-joblib>=1.2.0
-PyYAML>=6.0
-packaging>=21.0
+# Core ML 
+scikit-learn
+pandas
+numpy 
+joblib  
+PyYAML 
+packaging
 
 # Experiment tracking
-mlflow>=2.0.0
+mlflow
 
 # Serving
-fastapi>=0.100.0
-uvicorn>=0.22.0
-pydantic>=2.0.0
+fastapi
+uvicorn
+pydantic
 
 # UI
-streamlit>=1.28.0
+streamlit
 
 # Testing
-pytest>=7.0.0
-httpx>=0.24.0
+pytest
+httpx

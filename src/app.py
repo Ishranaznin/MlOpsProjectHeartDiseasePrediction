@@ -1,6 +1,6 @@
 """
 FastAPI Inference Server
-All configuration read from params.yaml — no hardcoded values.
+All configuration read from params.yaml.
 """
 
 import os
