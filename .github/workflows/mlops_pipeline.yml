@@ -135,8 +135,8 @@ jobs:
       - name: Upload Docker image artifact
         uses: actions/upload-artifact@v4
         with:
-        name: champion-docker-image
-        path: champion-inference-api.tar
+          name: champion-docker-image
+          path: champion-inference-api.tar
       # Uncomment to push to Docker Hub:
       # - name: Push Docker image
       #   run: |
