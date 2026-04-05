@@ -1,6 +1,6 @@
 """
 Stage 2: Model Training with MLflow Experiment Tracking
-All configuration read from params.yaml — no hardcoded values anywhere.
+All configuration read from params.yaml.
 """
 
 import os
@@ -178,12 +178,15 @@ def train_all(params: dict):
         "champion_run_id":  champion["run_id"],
         "champion_metric":  champion_metric,
         "champion_score":   champ_score,
+        "model_path": model_out,
+        "metrics_path": results_out,
         "champion_metrics": champion["metrics"],
         "sklearn_version":  sklearn.__version__,
         "all_results": {
             k: {"run_id": v["run_id"], "metrics": v["metrics"]}
             for k, v in results.items()
         },
+        "status": "candidate"
     }
     os.makedirs(os.path.dirname(results_out), exist_ok=True)
     with open(results_out, "w") as f:
@@ -205,33 +208,24 @@ def train_all(params: dict):
     
     # Simulate a simple registry
     registry_path = "registry/champion.json"
-    champ_metrics = champion["metrics"]
-
-    new_candidate = {
-        "model_name": champion_name,
-        "model_path": model_out,
-        "metrics_path": results_out,
-        "accuracy": champ_metrics["accuracy"],
-        "f1_score": champ_metrics["f1_score"],
-        "status": "candidate"
-    }
-    print(new_candidate)
+    
+    
 
     if os.path.exists(registry_path):
         with open(registry_path, "r") as f:
             current_champion = json.load(f)
         # Replace champion only if the new model has better F1
-        if new_candidate["f1_score"] > current_champion.get("f1_score", 0):
-            new_candidate["status"] = "champion"
+        if summary["f1_score"] > current_champion.get("f1_score", 0):
+            summary["status"] = "champion"
             with open(registry_path, "w") as f:
-                json.dump(new_candidate, f, indent=4)
+                json.dump(summary, f, indent=4)
             print("New model promoted to champion.")
         else:
             print("Current champion retained.")
     else:
-        new_candidate["status"] = "champion"
+        summary["status"] = "champion"
         with open(registry_path, "w") as f:
-            json.dump(new_candidate, f, indent=4)
+            json.dump(summary, f, indent=4)
         print("No champion existed. New model set as champion.")
         print("Training complete.")
         print("Metrics:", metrics)   
