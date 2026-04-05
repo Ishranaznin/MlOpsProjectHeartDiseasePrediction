@@ -206,8 +206,9 @@ def train_all(params: dict):
 
     print("\n[train] Done!")
     
+    os.makedirs("models", exist_ok=True)
     # Simulate a simple registry
-    registry_path = "registry/champion.json"
+    registry_path = "models/results_summary.json"
     
     
 
@@ -215,7 +216,7 @@ def train_all(params: dict):
         with open(registry_path, "r") as f:
             current_champion = json.load(f)
         # Replace champion only if the new model has better F1
-        if summary["f1_score"] > current_champion.get("f1_score", 0):
+        if summary["champion_score"] > current_champion.get("champion_score", 0):
             summary["status"] = "champion"
             with open(registry_path, "w") as f:
                 json.dump(summary, f, indent=4)

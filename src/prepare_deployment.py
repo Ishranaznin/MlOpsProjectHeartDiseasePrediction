@@ -2,13 +2,13 @@ import json
 import shutil
 from pathlib import Path
 
-registry_path = Path("registry/champion.json")
+registry_path = Path("models/results_summary.json")
 deployment_dir = Path("deployment")
-api_dir = Path("api")
+
 
 deployment_dir.mkdir(parents=True, exist_ok=True)
 if not registry_path.exists():
-    raise FileNotFoundError("registry/champion.json not found")
+    raise FileNotFoundError("models/results_summary.json not found")
 
 with open(registry_path, "r") as f:
     champion = json.load(f)
@@ -21,7 +21,7 @@ if not model_source.exists():
 shutil.copy2(model_source, deployment_dir / "model.pkl")
 
 # Copy API app into deployment folder
-shutil.copy2(api_dir / "app.py", deployment_dir / "app.py")
+shutil.copy2("src/app.py", deployment_dir / "app.py")
 
 print("Deployment files prepared successfully.")
 print(f"Champion model copied from: {model_source}")

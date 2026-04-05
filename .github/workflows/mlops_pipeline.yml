@@ -107,6 +107,7 @@ jobs:
       - name: Prepare deployment files
         run: |
           python src/prepare_deployment.py
+
       - name: Show deployment contents
         run: |
           ls -R deployment
@@ -120,7 +121,7 @@ jobs:
 
       - name: Save Docker image as tar
         run: |
-          docker save -o champion-inference-api.tar champion-inference-api:latest
+          docker save -o heart-disease-api.tar ${{ env.DOCKER_IMAGE }}:latest
       
       - name: Test Docker container
         run: |
@@ -136,7 +137,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: champion-docker-image
-          path: champion-inference-api.tar
+          path: heart-disease-api.tar
       # Uncomment to push to Docker Hub:
       # - name: Push Docker image
       #   run: |
