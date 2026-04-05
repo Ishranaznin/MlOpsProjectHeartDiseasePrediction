@@ -42,3 +42,4 @@ htmlcov/
 
 # Docker
 .dockerignore
+README.md

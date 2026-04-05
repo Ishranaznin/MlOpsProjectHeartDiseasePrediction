@@ -82,6 +82,9 @@ curl -X POST http://localhost:8000/predict \
 Champion model is selected based on F1-score and automatically registered in MLflow.
 
 #If the project is downloaded as zip, retrain after unzipping — never use the pre-built pkl
+
+Run with 
+
 pip install -r requirements.txt
 python src/preprocess.py
 python src/train.py        # saves pkl with YOUR sklearn version
