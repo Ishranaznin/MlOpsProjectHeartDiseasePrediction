@@ -1,0 +1,76 @@
+data:
+  raw_path: data/raw/heart_disease.csv
+  processed_path: data/processed/
+  test_size: 0.2
+  random_state: 42
+  target_column: target
+  class_names: ["No Disease", "Disease"]
+
+logistic_regression:
+  C: 1.0
+  max_iter: 1000
+  random_state: 42
+  param_grid:
+    C: [0.01, 0.1, 1.0, 10.0]
+    solver: ["lbfgs", "liblinear"]
+
+random_forest:
+  n_estimators: 100
+  max_depth: 5
+  min_samples_split: 2
+  random_state: 42
+  param_grid:
+    n_estimators: [50, 100, 200]
+    max_depth: [3, 5, null]
+    min_samples_split: [2, 5]
+
+adaboost:
+  n_estimators: 100
+  learning_rate: 1.0
+  random_state: 42
+  param_grid:
+    n_estimators: [50, 100, 200]
+    learning_rate: [0.5, 1.0, 1.5]
+
+training:
+  cv_folds: 5
+  cv_scoring: f1
+  champion_metric: f1_score
+  model_output_path: models/champion_model.pkl
+  results_output_path: models/results_summary.json
+
+evaluate:
+  model_path: models/champion_model.pkl
+  output_path: models/evaluation.json
+  pass_threshold: 0.75
+
+mlflow:
+  experiment_name: heart-disease-classification
+  model_registry_name: HeartDiseaseChampion
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  model_path: models/champion_model.pkl
+  scaler_path: data/processed/scaler.pkl
+  title: "Heart Disease Prediction API"
+  version: "1.0.0"
+
+streamlit:
+  title: "Heart Disease Risk Predictor"
+  page_icon: "❤️"
+  api_url: "http://localhost:8000"
+  feature_info:
+    age:        {label: "Age (years)",                  min: 1,   max: 120, default: 54,  step: 1,   type: int}
+    sex:        {label: "Sex",                           options: {0: "Female", 1: "Male"}, default: 1, type: select}
+    cp:         {label: "Chest Pain Type",               options: {0: "Typical Angina", 1: "Atypical Angina", 2: "Non-Anginal", 3: "Asymptomatic"}, default: 0, type: select}
+    trestbps:   {label: "Resting Blood Pressure (mmHg)", min: 80,  max: 220, default: 130, step: 1,   type: int}
+    chol:       {label: "Serum Cholesterol (mg/dl)",     min: 100, max: 600, default: 246, step: 1,   type: int}
+    fbs:        {label: "Fasting Blood Sugar > 120",     options: {0: "No", 1: "Yes"}, default: 0, type: select}
+    restecg:    {label: "Resting ECG",                   options: {0: "Normal", 1: "ST-T Abnormality", 2: "LV Hypertrophy"}, default: 0, type: select}
+    thalach:    {label: "Max Heart Rate Achieved",        min: 60,  max: 250, default: 150, step: 1,   type: int}
+    exang:      {label: "Exercise Induced Angina",        options: {0: "No", 1: "Yes"}, default: 0, type: select}
+    oldpeak:    {label: "ST Depression (Oldpeak)",        min: 0.0, max: 6.2, default: 1.0, step: 0.1, type: float}
+    slope:      {label: "Slope of Peak ST Segment",      options: {0: "Upsloping", 1: "Flat", 2: "Downsloping"}, default: 1, type: select}
+    ca:         {label: "Major Vessels (Fluoroscopy)",    min: 0,   max: 4,   default: 0,   step: 1,   type: int}
+    thal:       {label: "Thalassemia",                   options: {0: "Normal", 1: "Fixed Defect", 2: "Reversible Defect", 3: "Other"}, default: 2, type: select}
