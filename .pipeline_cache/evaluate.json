@@ -1,0 +1,8 @@
+{
+  "/mnt/d/GVSU_MS/AI545/project/heart-disease-mlops/models/champion_model.pkl": "ffd29ab1eb93c520d271b4e0516d1417",
+  "/mnt/d/GVSU_MS/AI545/project/heart-disease-mlops/data/processed/X_train.csv": "29b2f1e1db745d05278ad17a54001278",
+  "/mnt/d/GVSU_MS/AI545/project/heart-disease-mlops/data/processed/X_test.csv": "30bc4e24b3161f8dd5e6146ed9e8f3ff",
+  "/mnt/d/GVSU_MS/AI545/project/heart-disease-mlops/data/processed/y_train.csv": "fc842998a6a6c129564cb109aa7f62bb",
+  "/mnt/d/GVSU_MS/AI545/project/heart-disease-mlops/data/processed/y_test.csv": "a26f67c58146be0230db31f0032556ce",
+  "/mnt/d/GVSU_MS/AI545/project/heart-disease-mlops/data/processed/scaler.pkl": "2064b7206ddef9d2c2080a1d1e7da8d7"
+}

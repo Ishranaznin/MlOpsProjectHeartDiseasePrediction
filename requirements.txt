@@ -1,0 +1,24 @@
+# Core ML 
+scikit-learn
+pandas
+numpy 
+joblib  
+PyYAML 
+packaging
+dvc
+
+# Experiment tracking
+mlflow
+
+# Serving
+fastapi
+uvicorn
+pydantic
+
+# UI
+streamlit
+
+# Testing
+pytest
+httpx
+prometheus-client

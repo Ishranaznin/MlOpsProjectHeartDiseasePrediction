@@ -1,0 +1,49 @@
+{
+  "champion": "LogisticRegression",
+  "champion_run_id": "c406c1fc406841f9a95ff330bb4c34aa",
+  "champion_metric": "f1_score",
+  "champion_score": 0.84,
+  "model_path": "models/champion_model.pkl",
+  "metrics_path": "models/results_summary.json",
+  "champion_metrics": {
+    "accuracy": 0.8519,
+    "precision": 0.8077,
+    "recall": 0.875,
+    "f1_score": 0.84,
+    "roc_auc": 0.9111
+  },
+  "sklearn_version": "1.4.2",
+  "all_results": {
+    "LogisticRegression": {
+      "run_id": "c406c1fc406841f9a95ff330bb4c34aa",
+      "metrics": {
+        "accuracy": 0.8519,
+        "precision": 0.8077,
+        "recall": 0.875,
+        "f1_score": 0.84,
+        "roc_auc": 0.9111
+      }
+    },
+    "RandomForest": {
+      "run_id": "e699d2b0197b4fbd849bf037cf79f7fd",
+      "metrics": {
+        "accuracy": 0.8148,
+        "precision": 0.7692,
+        "recall": 0.8333,
+        "f1_score": 0.8,
+        "roc_auc": 0.8847
+      }
+    },
+    "AdaBoost": {
+      "run_id": "9d50e39661f9476a844ab32d0b8eac79",
+      "metrics": {
+        "accuracy": 0.7407,
+        "precision": 0.6923,
+        "recall": 0.75,
+        "f1_score": 0.72,
+        "roc_auc": 0.8556
+      }
+    }
+  },
+  "status": "candidate"
+}

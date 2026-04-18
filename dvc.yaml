@@ -1,0 +1,46 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/heart_disease.csv
+      - params.yaml
+    params:
+      - data.raw_path
+      - data.processed_path
+      - data.test_size
+      - data.random_state
+    outs:
+      - data/processed/X_train.csv
+      - data/processed/X_test.csv
+      - data/processed/y_train.csv
+      - data/processed/y_test.csv
+      - data/processed/scaler.pkl
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/X_train.csv
+      - data/processed/X_test.csv
+      - data/processed/y_train.csv
+      - data/processed/y_test.csv
+      - params.yaml
+    params:
+      - logistic_regression
+      - random_forest
+      - adaboost
+      - mlflow.experiment_name
+    outs:
+      - models/champion_model.pkl
+      - models/results_summary.json
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - models/champion_model.pkl
+      - data/processed/X_test.csv
+      - data/processed/y_test.csv
+    outs:
+      - models/evaluation.json
