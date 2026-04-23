@@ -110,7 +110,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -f Dockerfile.streamlit \
+          docker build -f Dockerfile \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE }}:latest .
 
