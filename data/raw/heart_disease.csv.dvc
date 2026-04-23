@@ -1,0 +1,6 @@
+outs:
+- md5: 12d668d2cf99e50dc0807028ae1d3892
+  size: 10113
+  isexec: true
+  hash: md5
+  path: heart_disease.csv
