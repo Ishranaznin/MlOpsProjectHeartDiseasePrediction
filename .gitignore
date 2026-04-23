@@ -22,6 +22,13 @@ mlartifacts/
 .dvc/cache
 .dvc/tmp
 
+
+# DVC managed files
+data/raw/heart_disease.csv
+data/processed/
+models/champion_model.pkl
+
+
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb

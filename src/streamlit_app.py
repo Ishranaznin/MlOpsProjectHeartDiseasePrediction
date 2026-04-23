@@ -17,6 +17,12 @@ import warnings
 import numpy as np
 import pandas as pd
 import streamlit as st
+from prometheus_client import Counter, start_http_server, REGISTRY
+import threading
+
+
+
+
 
 # ── Ensure src/ is on path so model_utils imports cleanly ────────────────────
 sys.path.insert(0, os.path.dirname(__file__))
@@ -49,6 +55,31 @@ st.set_page_config(
     page_icon=ST_CFG["page_icon"],
     layout="wide",
 )
+
+
+@st.cache_resource
+def _start_metrics_server():
+    """Start Prometheus metrics server exactly once, in a background thread."""
+    try:
+        start_http_server(8001)
+    except OSError:
+        pass   # already running
+
+# Use st.session_state to ensure counter and server start only once per session
+if "metrics_initialized" not in st.session_state:
+    threading.Thread(target=_start_metrics_server, daemon=True).start()
+    st.session_state.metrics_initialized = True
+
+
+@st.cache_resource
+def get_counter():
+    return Counter(
+        "streamlit_predictions_total",
+        "Total predictions made via Streamlit UI"
+    )
+
+PREDICTION_COUNTER = get_counter()
+
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -220,6 +251,8 @@ with left_col:
         row_df     = pd.DataFrame([row_vals], columns=feat_names)
         X          = scaler.transform(row_df) if scaler is not None else row_df.values
 
+
+        PREDICTION_COUNTER.inc()
         pred   = int(model.predict(X)[0])
         proba  = model.predict_proba(X)[0] if hasattr(model, "predict_proba") else [0.5, 0.5]
         p_dis  = round(float(proba[1]) * 100, 1)

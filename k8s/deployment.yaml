@@ -1,32 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: heart-disease-api
+  name: heart-disease-streamlit
   labels:
-    app: heart-disease-api
-    version: "1.0"
+    app: heart-disease-streamlit
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: heart-disease-api
+      app: heart-disease-streamlit
   template:
     metadata:
       labels:
-        app: heart-disease-api
+        app: heart-disease-streamlit
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8001"
+        prometheus.io/path: "/"
     spec:
       containers:
-        - name: heart-disease-api
-          image: heart-disease-api:latest
-          # Use IfNotPresent for local Minikube (avoids pulling from registry)
-          imagePullPolicy: IfNotPresent
+        - name: streamlit
+          image: heart-disease-streamlit:latest
+          imagePullPolicy: Never
           ports:
-            - containerPort: 8000
-          env:
-            - name: MODEL_PATH
-              value: "models/champion_model.pkl"
-            - name: SCALER_PATH
-              value: "data/processed/scaler.pkl"
+            - containerPort: 8501   # Streamlit UI
+            - containerPort: 8001   # Prometheus metrics
           resources:
             requests:
               memory: "256Mi"
@@ -36,13 +34,13 @@ spec:
               cpu: "500m"
           livenessProbe:
             httpGet:
-              path: /health
-              port: 8000
-            initialDelaySeconds: 15
-            periodSeconds: 20
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 20
+            periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: /health
-              port: 8000
-            initialDelaySeconds: 5
-            periodSeconds: 10
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 10
+            periodSeconds: 15

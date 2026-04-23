@@ -1,0 +1,24 @@
+{
+  "title": "Heart Disease MLOps",
+  "uid": "heart-mlops-v1",
+  "schemaVersion": 38,
+  "refresh": "10s",
+  "panels": [
+    
+    {
+      "id":1, "type": "stat", "title": "Total Streamlit Predictions",
+      "gridPos": {"x": 8, "y": 0, "w": 8, "h": 4},
+      "targets": [{"expr": "streamlit_predictions_total", "legendFormat": "UI", "datasource": "Prometheus"}],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "colorMode": "value", "graphMode": "area"}
+    },
+  
+    {
+      "id": 2, "type": "timeseries", "title": "Prediction Rate (per minute)",
+      "gridPos": {"x": 0, "y": 4, "w": 24, "h": 8},
+      "targets": [
+        {"expr": "rate(predictions_total[1m]) * 60", "legendFormat": "API /predict", "datasource": "Prometheus"},
+        {"expr": "rate(streamlit_predictions_total[1m]) * 60", "legendFormat": "Streamlit UI", "datasource": "Prometheus"}
+      ]
+    }
+  ]
+}

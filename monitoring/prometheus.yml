@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+
+  # Streamlit metrics (predictions via UI)
+  - job_name: 'heart-disease-streamlit'
+    static_configs:
+      - targets: ['streamlit:8001']
+    metrics_path: /metrics

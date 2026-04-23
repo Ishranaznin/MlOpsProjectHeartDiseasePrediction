@@ -1,0 +1,40 @@
+#Orchestrates both services together so a single docker compose up starts everything.
+
+version: "3.9"
+
+services:
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: heart-disease-streamlit:latest
+    container_name: heart-streamlit
+    ports:
+      - "8501:8501"   # Streamlit UI
+      - "8001:8001"   # Prometheus metrics endpoint
+    environment:
+      - PYTHONPATH=/app
+    restart: unless-stopped
+
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: heart-prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: heart-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    restart: unless-stopped
