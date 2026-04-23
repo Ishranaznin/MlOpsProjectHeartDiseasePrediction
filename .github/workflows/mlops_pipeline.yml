@@ -115,15 +115,17 @@ jobs:
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE }}:latest .
 
 
-      - name: Save Docker image as tar
-        run: |
-          docker save -o heart-disease-api.tar ${{ env.DOCKER_IMAGE }}:latest
+      
       
       #  push to Docker Hub:
-      - name: Push Docker image
+      - name: Push Docker image (latest)
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE }}:latest
 
+      - name: Push Docker image (versioned)
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}
+      
       - name: Upload Docker image artifact
         uses: actions/upload-artifact@v4
         with:
