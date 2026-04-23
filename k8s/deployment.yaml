@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: streamlit
-          image: heart-disease-streamlit:latest
+          image: ishranaznin/heart-disease-api:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8501   # Streamlit UI

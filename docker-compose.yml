@@ -4,10 +4,10 @@ version: "3.9"
 
 services:
   streamlit:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: heart-disease-streamlit:latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: ishranaznin/heart-disease-api:latest
     container_name: heart-streamlit
     ports:
       - "8501:8501"   # Streamlit UI
