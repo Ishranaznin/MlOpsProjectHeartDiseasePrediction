@@ -10,7 +10,7 @@ services:
     image: ishranaznin/heart-disease-api:latest
     container_name: heart-streamlit
     ports:
-      - "8501:8501"   # Streamlit UI
+      - "8501:8501"   # Streamlit UI 
       - "8001:8001"   # Prometheus metrics endpoint
     environment:
       - PYTHONPATH=/app
