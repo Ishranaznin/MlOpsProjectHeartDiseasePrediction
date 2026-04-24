@@ -21,7 +21,7 @@ spec:
       containers:
         - name: streamlit
           image: ishranaznin/heart-disease-api:latest
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           ports:
             - containerPort: 8501   # Streamlit UI
             - containerPort: 8001   # Prometheus metrics
