@@ -5,7 +5,7 @@ metadata:
   labels:
     app: heart-disease-streamlit
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: heart-disease-streamlit
   ports:
@@ -14,7 +14,9 @@ spec:
       port: 8501
       targetPort: 8501
       nodePort: 30081          # access via minikube-ip:30081
+
     - name: metrics
       protocol: TCP
       port: 8001
       targetPort: 8001
+      nodePort: 30082 
