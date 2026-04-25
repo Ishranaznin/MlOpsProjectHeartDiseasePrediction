@@ -7,5 +7,6 @@ scrape_configs:
   # Streamlit metrics (predictions via UI)
   - job_name: 'heart-disease-streamlit'
     static_configs:
-      - targets: ['streamlit:8001']
+      #- targets: ['heart-disease-streamlit-service:8001']
+      - targets: ['streamlit:8001'] # work with docker compose
     metrics_path: /metrics
