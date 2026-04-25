@@ -8,9 +8,11 @@ data:
     datasources:
       - name: Prometheus
         type: prometheus
-        url: http://prometheus:9090    # "prometheus" = the Service name above
+        uid: prometheus
+        url: http://prometheus:9090
         access: proxy
         isDefault: true
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -25,6 +27,54 @@ data:
         type: file
         options:
           path: /etc/grafana/provisioning/dashboards
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-json
+data:
+  predictions.json: |
+    {
+      "title": "Heart Disease MLOps",
+      "uid": "heart-mlops-v1",
+      "schemaVersion": 38,
+      "refresh": "10s",
+      "panels": [
+        {
+          "id": 1,
+          "type": "stat",
+          "title": "Total Streamlit Predictions",
+          "gridPos": {"x": 8, "y": 0, "w": 8, "h": 4},
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "targets": [{
+            "expr": "streamlit_predictions_total",
+            "legendFormat": "UI",
+            "datasource": {"type": "prometheus", "uid": "prometheus"}
+          }],
+          "options": {
+            "reduceOptions": {"calcs": ["lastNotNull"]},
+            "colorMode": "value",
+            "graphMode": "area"
+          }
+        },
+        {
+          "id": 2,
+          "type": "timeseries",
+          "title": "Prediction Rate (per minute)",
+          "gridPos": {"x": 0, "y": 4, "w": 24, "h": 8},
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "targets": [
+            {
+              "expr": "rate(streamlit_predictions_total[1m]) * 60",
+              "legendFormat": "Streamlit UI",
+              "datasource": {"type": "prometheus", "uid": "prometheus"}
+            }
+          ]
+        }
+      ]
+    }
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,7 +102,11 @@ spec:
             - name: datasource
               mountPath: /etc/grafana/provisioning/datasources
             - name: dashboard-provider
-              mountPath: /etc/grafana/provisioning/dashboards
+              mountPath: /etc/grafana/provisioning/dashboards/dashboard.yml
+              subPath: dashboard.yml
+            - name: dashboard-json       # ← this is the missing piece
+              mountPath: /etc/grafana/provisioning/dashboards/predictions.json
+              subPath: predictions.json
       volumes:
         - name: datasource
           configMap:
@@ -60,6 +114,10 @@ spec:
         - name: dashboard-provider
           configMap:
             name: grafana-dashboard-provider
+        - name: dashboard-json
+          configMap:
+            name: grafana-dashboard-json
+
 ---
 apiVersion: v1
 kind: Service
